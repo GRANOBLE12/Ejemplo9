@@ -5,10 +5,11 @@
 package Logica_Cliente;
 
 import Logica_Negocio.Paciente;
-import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.Scanner;
-
+import static Logica_Negocio.Helper.RetornarValor;
+import static Logica_Negocio.Helper.RetornarCE;
+import static Logica_Negocio.Helper.RetornarV;
 /**
  *
  * @author ANDRES
@@ -24,6 +25,9 @@ public class Main {
         String Cedula="";
         String Direccion="";
         int cantidad=0;
+        int retorno=0;
+        int retornoc=0;
+        int retornoce=0;
         
         Paciente objpaciente=new Paciente();
         Scanner scan = new Scanner (System.in);
@@ -34,25 +38,38 @@ public class Main {
         scan.nextLine();
         
         for (int i = 0; i < cantidad; i++) {
-            System.out.println("Digite el nombre del empleado");
-            Nombre=scan.nextLine();
+            retorno = RetornarValor(Nombre);
+            retornoce=RetornarCE(Nombre);
+            while(retorno!=0||retornoce!=0|| Nombre.equals("")) {
+                System.out.println("Digite el nombre del empleado");
+                Nombre=scan.nextLine();
+                retorno = RetornarValor(Nombre);
+                retornoce=RetornarCE(Nombre);
+            }
+
+            retornoc=RetornarV(Cedula);
+            while(retornoc!=0||retornoce!=0||Cedula.equals("")){   
+                System.out.println("Digite el numero de cedula del empleado");
+                Cedula=scan.nextLine();
+                retornoce=RetornarCE(Cedula);
+                retornoc=RetornarV(Cedula);
+            }
             
-            System.out.println("Digite el numero de cedula del empleado");
-            Cedula=scan.nextLine();
+            retornoce=RetornarCE(Direccion);
+            while(Direccion.equals("")||retornoce!=0){
+                System.out.println("Digite la direccion del empleado");
+                Direccion=scan.nextLine();
             
-            System.out.println("Digite la direccion del empleado");
-            Direccion=scan.nextLine();
-            
-            objpaciente=new Paciente(Nombre, Cedula, Direccion);
-            listapacientes.add(objpaciente);
+                objpaciente=new Paciente(Nombre, Cedula, Direccion);
+                listapacientes.add(objpaciente);
+                retornoce=RetornarCE(Direccion);
+            }   
         }
         for(int i = 0; i < listapacientes.size(); i++){
             System.out.println("El nombre del paciente es: "+"\t"+listapacientes.get(i).getNombre()+"\n"
             +"La cedula del paciente es: "+"\t"+listapacientes.get(i).getCedula()+"\n"
             +"La direccion del paciente es: "+"\t"+listapacientes.get(i).getDireccion());
             System.out.println("");
-        }
-            
+        }       
     }
-    
 }
